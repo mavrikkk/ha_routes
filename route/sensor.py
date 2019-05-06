@@ -36,12 +36,10 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 })
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
-
     name = config.get(CONF_NAME)
     myid = config.get(CONF_ID)
     haddr = config.get(CONF_SITE)
     token = config.get(CONF_TOKEN)
-
     add_devices([MyRoute(name, myid, haddr, token)])
     
     
