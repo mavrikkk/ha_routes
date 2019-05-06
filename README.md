@@ -1,6 +1,6 @@
 # ha_routes
-Интеграция позволяет отображать историю сегодняшних перемещений (назовем это маршрутами или направлениями) на карте в вашем HomeAssistant, используя библиотеку Leaflet
-This integration allows you to display the history of today's movements (call it a route or directions) on the map of your HomeAssistant using the Leaflet library
+<p>Интеграция позволяет отображать историю сегодняшних перемещений (назовем это маршрутами или направлениями) на карте в вашем HomeAssistant, используя библиотеку Leaflet</p>
+<p>This integration allows you to display the history of today's movements (call it a route or directions) on the map of your HomeAssistant using the Leaflet library</p>
 
 <p><b>РУССКИЙ:</b></p>
 <p><b>1. Как это работает</b></p>
