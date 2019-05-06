@@ -23,6 +23,13 @@ sensor:
 </code></pre>
 <p>here "your_device_tracker_entity_id" - это ID вашего устройства device_tracker, "your_address_homeassistant" - внешний адрес вашего HomeAssistant, "your_long_life_token" - предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API.</p>
 
+<p><b>5. TODO</b></p>
+<p>- дополнить раздел "Как это работает" в README.md</p>
+<p>- поправить перевод в README.md</p>
+<p>- убрать харкод часового пояса tz=+4 в sensor.py</p>
+<p>- убрать лишние параметры из sensor.py: получать "cfgdir" и "haddr" из REST API</p>
+<p>- мультимаршруты (несколько маршрутов от разных устройств)</p>
+
 <p><b>BAD ENGLISH:</b></p>
 <p><b>1. How it works</b></p>
 <p>Every n seconds (I have configured for 300) the module makes a query (throw official REST API) to the history of the selected "device_tracker" object. The output is an array of coordinates for a certain period of time. This array is passed through the distance filter: if the distance between the previous and current point is less than 50 meters, then the current point is discarded. After that two files are generated ("index.html" and "route.html") in the HomeAssistant's "www" folder. The "index.html" file contains a call to the "route.html" file with a random, dynamically generated parameter, which allows you to always request the current version of the "route.html" file from the server, not cached data. The "route.html" file contains all useful methods and calls.</p>
@@ -45,3 +52,10 @@ sensor:
     token: your_long_life_token
 </code></pre>
 <p>here "your_device_tracker_entity_id" is the ID of your device_tracker, "your_address_homeassistant" is the external address of your HomeAssistant, "your_long_life_token" is the access token previously received in the frontend of HomeAssistant to use REST API.</p>
+
+<p><b>5. TODO</b></p>
+<p>- add more information to "How it works" in README.md</p>
+<p>- edit English translate in README.md</p>
+<p>- edit hardcoded timezone=+4 in sensor.py</p>
+<p>- edit sensor.py: receive "cfgdir" and "haddr" parameters from REST API</p>
+<p>- multiroutes (few routes from different devices)</p>
