@@ -53,17 +53,14 @@ class MyRoute(Entity):
         self._myid = myid
         self._haddr = haddr
         self._token = token
-
         self._data = '[]'
         self._last_run = None
-
         self.putInfoTo()
 
     def getInfoFrom(self):
         dayBegin = time.strftime("%Y-%m-%dT00:00:00+04:00")
         header = {'Authorization': 'Bearer ' + self._token, 'content-type': 'application/json'}
         response = requests.get(self._haddr + '/api/history/period/' + dayBegin + '?filter_entity_id=' + self._myid, headers=header)
-        time.sleep(1)
         data = response.json()[0]
         if data != None and data != '' and len(data) > 0:
             self._data = self.getCoordinates(data)
