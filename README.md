@@ -25,7 +25,7 @@ sensor:
 <p>here "your_device_tracker_entity_id" - это ID вашего устройства device_tracker, "your_address_homeassistant" - внешний адрес вашего HomeAssistant, 'your_timezone' - это часовой пояс, например '+03:00', "your_long_life_token" - предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API.</p>
 
 <p><b>5. TODO</b></p>
-<p>- добавить гибкую настройку периода в sensor.py</p>
+<p>- добавить гибкую настройку периода в sensor.py (сейчас задан сегодняшний маршрут)</p>
 <p>- мультимаршруты (несколько маршрутов от разных устройств)</p>
 <p>- поправить перевод в README.md</p>
 
@@ -53,6 +53,6 @@ sensor:
 <p>here "your_device_tracker_entity_id" is the ID of your device_tracker, "your_address_homeassistant" is the external address of your HomeAssistant, 'your_timezone' is your timezone, for example '+03:00', "your_long_life_token" is the access token previously received in the frontend of HomeAssistant to use REST API.</p>
 
 <p><b>5. TODO</b></p>
-<p>- add period configuration in sensor.py</p>
+<p>- add period configuration in sensor.py (now is today route)</p>
 <p>- multiroutes (few routes from different devices)</p>
 <p>- edit English translate in README.md</p>
