@@ -22,6 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 CONF_ID = 'entityid'
 CONF_TOKEN = 'token'
 CONF_NAME = 'name'
+CONF_TZ = 'timezone'
 DEFAULT_NAME = 'Route'
 
 SCAN_INTERVAL = timedelta(seconds=300)
@@ -29,6 +30,7 @@ SCAN_INTERVAL = timedelta(seconds=300)
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_ID): cv.string,
     vol.Required(CONF_TOKEN): cv.string,
+    vol.Required(CONF_TZ): cv.string,
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
 })
 
@@ -36,16 +38,18 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     name = config.get(CONF_NAME)
     myid = config.get(CONF_ID)
     token = config.get(CONF_TOKEN)
-    add_devices([MyRoute(hass, name, myid, token)])
+    timezone = config.get(CONF_TZ)
+    add_devices([MyRoute(hass, name, myid, timezone, token)])
     
     
     
 class MyRoute(Entity):
 
-    def __init__(self, hass, name, myid, token):
+    def __init__(self, hass, name, myid, timezone, token):
         self._name = name
         self._myid = myid
         self.hass = hass
+        self._tz = timezone
         self._token = token
         
         self._data = '[]'
@@ -54,7 +58,7 @@ class MyRoute(Entity):
         self.putInfoTo()
 
     def getInfoFrom(self):
-        dayBegin = time.strftime("%Y-%m-%dT00:00:00+04:00")
+        dayBegin = time.strftime("%Y-%m-%dT00:00:00" + self._tz)
         header = {'Authorization': 'Bearer ' + self._token, 'content-type': 'application/json'}
         response = requests.get('http://localhost:8123/api/history/period/' + dayBegin + '?filter_entity_id=' + self._myid, headers=header)
         data = response.json()[0]
