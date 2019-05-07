@@ -20,17 +20,14 @@ from homeassistant.helpers.entity import Entity
 _LOGGER = logging.getLogger(__name__)
 
 CONF_ID = 'entityid'
-CONF_SITE = 'haddr'
 CONF_TOKEN = 'token'
 CONF_NAME = 'name'
-
 DEFAULT_NAME = 'Route'
 
 SCAN_INTERVAL = timedelta(seconds=300)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_ID): cv.string,
-    vol.Required(CONF_SITE): cv.string,
     vol.Required(CONF_TOKEN): cv.string,
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
 })
@@ -38,27 +35,28 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 def setup_platform(hass, config, add_devices, discovery_info=None):
     name = config.get(CONF_NAME)
     myid = config.get(CONF_ID)
-    haddr = config.get(CONF_SITE)
     token = config.get(CONF_TOKEN)
-    add_devices([MyRoute(name, myid, haddr, token)])
+    add_devices([MyRoute(hass, name, myid, token)])
     
     
     
 class MyRoute(Entity):
 
-    def __init__(self, name, myid, haddr, token):
+    def __init__(self, hass, name, myid, token):
         self._name = name
         self._myid = myid
-        self._haddr = haddr
+        self.hass = hass
         self._token = token
+        
         self._data = '[]'
         self._last_run = None
+        
         self.putInfoTo()
 
     def getInfoFrom(self):
         dayBegin = time.strftime("%Y-%m-%dT00:00:00+04:00")
         header = {'Authorization': 'Bearer ' + self._token, 'content-type': 'application/json'}
-        response = requests.get(self._haddr + '/api/history/period/' + dayBegin + '?filter_entity_id=' + self._myid, headers=header)
+        response = requests.get('http://localhost:8123/api/history/period/' + dayBegin + '?filter_entity_id=' + self._myid, headers=header)
         data = response.json()[0]
         if data != None and data != '' and len(data) > 0:
             self._data = self.getCoordinates(data)
@@ -66,7 +64,7 @@ class MyRoute(Entity):
                 self._last_run = time.strftime("%Y.%m.%d-%H:%M")    
                 
     def putInfoTo(self):
-        cfgdir = '/home/homeassistant/.homeassistant'
+        cfgdir = self.hass.config.as_dict()['config_dir']
         datenow = str(time.strftime('%Y.%m.%d-%H:%M:%S'))
         try:
             f = open(cfgdir + '/www/route/route.html', 'w')
