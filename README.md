@@ -10,7 +10,7 @@
 <p>Все файлы в директории "www" публичные: любой файл в директории "www" может быть открыт в любом браузером любым пользователем безо всякой авторизации по прямой ссылке. В данном случае ссылка такая: "http://your_address_homeassistant/local/route/index.html".  Для безопасноти можно поднять реверсивный прокси и поместить службу HomeAssistant за ним, а затем настроить авторизацию уже в нем. Настройка наиболее популярных веб-серверов в качестве реверсивных прокси находятся на <a href=https://www.home-assistant.io/docs/ecosystem/nginx>официальной странице</a>. После настройки реверсивного прокси нужно добавить авторизацию на нужные страницы. Это будет независимая авторизация, никак не связанная с ваторизацией в самом HomeAssistant.</p>
 
 <p><b>3. Установка</b></p>
-<p>Содержимое папки "route" скопировать в директорию "config_folder_homeassistant/custom_components/route", не забывайте про права. Если не существует, то создать папку "config_folder_homeassistant/www" и выдать на нее соответствующие права. Внутри папки "www" создать папку "route" и в нее поместить библиотеку <a href='https://github.com/bbecquet/Leaflet.PolylineDecorator'>Leaflet.PolylineDecorator</a>. </p>
+<p>Содержимое папки "route" скопировать в директорию "config_folder_homeassistant/custom_components/route". Если не существует, то создать папку "config_folder_homeassistant/www" и выдать на нее соответствующие права. Внутри папки "www" создать папку "route" и в нее поместить библиотеку <a href='https://github.com/bbecquet/Leaflet.PolylineDecorator'>Leaflet.PolylineDecorator</a>. Не забывайте про права на созданные директории и файлы.</p>
 
 <p><b>4. Настройка</b></p>
 <p>Добавьте в ваш файл конфигурации "configuration.yaml" следующие строки:</p>
@@ -37,7 +37,7 @@ sensor:
 After setting up a reverse proxy, you need to add authorization for the necessary pages. This is an independent authorization that is not related to the authorization of the HomeAssistant itself.</p>
 
 <p><b>3. Installation</b></p>
-<p>Place the "route" folder to "config_folder_homeassistant/custom_components/route", do not forget about the rights. If it does not exist, create the folder "config_folder_homeassistant/www" and grant the corresponding rights to it. Create "route" folder inside "www" directory and place <a href='https://github.com/bbecquet/Leaflet.PolylineDecorator'>Leaflet.PolylineDecorator</a> library to it.</p>
+<p>Place the "route" folder to "config_folder_homeassistant/custom_components/route". If it does not exist, create the folder "config_folder_homeassistant/www" and grant the corresponding rights to it. Create "route" folder inside "www" directory and place <a href='https://github.com/bbecquet/Leaflet.PolylineDecorator'>Leaflet.PolylineDecorator</a> library to it. do not forget about the rights to created folders and files.</p>
 
 <p><b>4. Configuration</b></p>
 <p>Add the following lines in the "configuration.yaml" file:</p>
