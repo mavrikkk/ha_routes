@@ -19,12 +19,12 @@ sensor:
   - platform: route
     name: route
     entityid: your_device_tracker_entity_id
+    timezone: 'your_timezone'
     token: your_long_life_token
 </code></pre>
-<p>here "your_device_tracker_entity_id" - это ID вашего устройства device_tracker, "your_address_homeassistant" - внешний адрес вашего HomeAssistant, "your_long_life_token" - предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API.</p>
+<p>here "your_device_tracker_entity_id" - это ID вашего устройства device_tracker, "your_address_homeassistant" - внешний адрес вашего HomeAssistant, 'your_timezone' - это часовой пояс, например '+03:00', "your_long_life_token" - предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API.</p>
 
 <p><b>5. TODO</b></p>
-<p>- убрать харкод часового пояса tz=+4 в sensor.py</p>
 <p>- добавить гибкую настройку периода в sensor.py</p>
 <p>- мультимаршруты (несколько маршрутов от разных устройств)</p>
 <p>- поправить перевод в README.md</p>
@@ -47,12 +47,12 @@ sensor:
   - platform: route
     name: route
     entityid: your_device_tracker_entity_id
+    timezone: 'your_timezone'
     token: your_long_life_token
 </code></pre>
-<p>here "your_device_tracker_entity_id" is the ID of your device_tracker, "your_address_homeassistant" is the external address of your HomeAssistant, "your_long_life_token" is the access token previously received in the frontend of HomeAssistant to use REST API.</p>
+<p>here "your_device_tracker_entity_id" is the ID of your device_tracker, "your_address_homeassistant" is the external address of your HomeAssistant, 'your_timezone' is your timezone, for example '+03:00', "your_long_life_token" is the access token previously received in the frontend of HomeAssistant to use REST API.</p>
 
 <p><b>5. TODO</b></p>
-<p>- edit hardcoded timezone=+4 in sensor.py</p>
 <p>- add period configuration in sensor.py</p>
 <p>- multiroutes (few routes from different devices)</p>
 <p>- edit English translate in README.md</p>
