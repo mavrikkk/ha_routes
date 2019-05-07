@@ -25,6 +25,7 @@ sensor:
 
 <p><b>5. TODO</b></p>
 <p>- убрать харкод часового пояса tz=+4 в sensor.py</p>
+<p>- добавить гибкую настройку периода в sensor.py</p>
 <p>- мультимаршруты (несколько маршрутов от разных устройств)</p>
 <p>- поправить перевод в README.md</p>
 
@@ -52,5 +53,6 @@ sensor:
 
 <p><b>5. TODO</b></p>
 <p>- edit hardcoded timezone=+4 in sensor.py</p>
+<p>- add period configuration in sensor.py</p>
 <p>- multiroutes (few routes from different devices)</p>
 <p>- edit English translate in README.md</p>
