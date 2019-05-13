@@ -38,7 +38,7 @@ sensor:
 After setting up a reverse proxy, you need to add authorization for the necessary pages. This is an independent authorization that is not related to the authorization of the HomeAssistant itself.</p>
 
 <p><b>3. Installation</b></p>
-<p>Place the "route" folder to "config_folder_homeassistant/custom_components/route". If it does not exist, create the folder "config_folder_homeassistant/www" and grant the corresponding rights to it. Create "route" folder inside "www" directory and place <a href='https://github.com/bbecquet/Leaflet.PolylineDecorator'>Leaflet.PolylineDecorator</a> library to it. Do not forget about the rights to created folders and files.</p>
+<p>Place the "route" folder to "config_folder_homeassistant/custom_components/". If it does not exist, create the folder "config_folder_homeassistant/www" and grant the corresponding rights to it. Create "route" folder inside "www" directory and place <a href='https://github.com/bbecquet/Leaflet.PolylineDecorator'>Leaflet.PolylineDecorator</a> library to it. Do not forget about the rights to created folders and files.</p>
 
 <p><b>4. Configuration</b></p>
 <p>Add the following lines in the "configuration.yaml" file:</p>
