@@ -20,6 +20,7 @@ from homeassistant.helpers.entity import Entity
 _LOGGER = logging.getLogger(__name__)
 
 CONF_ID = 'entityid'
+CONF_HA = 'haddr'
 CONF_TOKEN = 'token'
 CONF_NAME = 'name'
 CONF_TZ = 'timezone'
@@ -29,6 +30,7 @@ SCAN_INTERVAL = timedelta(seconds=300)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_ID): cv.string,
+    vol.Required(CONF_HA): cv.string,
     vol.Required(CONF_TOKEN): cv.string,
     vol.Required(CONF_TZ): cv.string,
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
@@ -36,19 +38,21 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     name = config.get(CONF_NAME)
+    haddr = config.get(CONF_HA)
     myid = config.get(CONF_ID)
     token = config.get(CONF_TOKEN)
     timezone = config.get(CONF_TZ)
-    add_devices([MyRoute(hass, name, myid, timezone, token)])
+    add_devices([MyRoute(hass, haddr, name, myid, timezone, token)])
     
     
     
 class MyRoute(Entity):
 
-    def __init__(self, hass, name, myid, timezone, token):
+    def __init__(self, hass, haddr, name, myid, timezone, token):
         self._name = name
         self._myid = myid
         self.hass = hass
+        self._haddr = haddr
         self._tz = timezone
         self._token = token
         
@@ -60,7 +64,7 @@ class MyRoute(Entity):
     def getInfoFrom(self):
         dayBegin = time.strftime("%Y-%m-%dT00:00:00" + self._tz)
         header = {'Authorization': 'Bearer ' + self._token, 'content-type': 'application/json'}
-        response = requests.get('http://localhost:8123/api/history/period/' + dayBegin + '?filter_entity_id=' + self._myid, headers=header)
+        response = requests.get(self._haddr + '/api/history/period/' + dayBegin + '?filter_entity_id=' + self._myid, headers=header)
         data = response.json()[0]
         if data != None and data != '' and len(data) > 0:
             self._data = self.getCoordinates(data)
