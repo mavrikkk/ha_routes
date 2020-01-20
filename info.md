@@ -37,3 +37,10 @@ key | description
 
 
 **Screenshots**
+![example][exampleimg]
+
+
+
+***
+
+[exampleimg]: map.jpg
