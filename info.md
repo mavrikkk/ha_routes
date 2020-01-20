@@ -1,6 +1,8 @@
 **Description (Описание)**
 <p>This integration allows you to display the history of today's movements on the map of your HomeAssistant (Интеграция позволяет отображать историю сегодняшних перемещений на карте в вашем HomeAssistant)</p>
 
+
+
 **Example configuration.yaml:**
 
 ```yaml
@@ -13,6 +15,8 @@ sensor:
   token: 'your_generated_long_life_token_ha_api'
 ```
 
+
+
 **Configuration variables:**  
   
 key | description  
@@ -24,7 +28,12 @@ key | description
 **timezone (Required)** | is your timezone, for example '+03:00' (ваш часовой пояс, например '+03:00')
 **token (Required)** | the access token previously received in the frontend of HomeAssistant to use REST API (предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API)
   
+  
+  
 **!!!IMPORTANT!!! after installation instructions**
-After installation the map will be at your_address_homeassistant/local/route/index.html. If you wish, you can add it to the HA menu using panel_iframe or to any HA window via the lovelace card “iframe” (После установки карта будет доступна по прямой ссылке: your_address_homeassistant/local/route/index.html. При желании вы можете добавить ее в меню HA с помощью panel_iframe или в любое окно HA через lovelace card “iframe”).
+
+<p>After installation the map will be at your_address_homeassistant/local/route/index.html. If you wish, you can add it to the HA menu using panel_iframe or to any HA window via the lovelace card “iframe” (После установки карта будет доступна по прямой ссылке: your_address_homeassistant/local/route/index.html. При желании вы можете добавить ее в меню HA с помощью panel_iframe или в любое окно HA через lovelace card “iframe”).</p>
+
+
 
 **Screenshots**
