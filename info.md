@@ -43,4 +43,4 @@ key | description
 
 ***
 
-[exampleimg]: map.jpg
+[exampleimg]: map.jpeg
