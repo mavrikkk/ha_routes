@@ -1,3 +1,5 @@
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
+
 # ha_routes
 <p>Интеграция позволяет отображать историю сегодняшних перемещений (назовем это маршрутами или направлениями) на карте в вашем HomeAssistant, используя библиотеку Leaflet</p>
 <p>This integration allows you to display the history of today's movements (call it a route or directions) on the map of your HomeAssistant using the Leaflet library</p>
