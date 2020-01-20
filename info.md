@@ -36,7 +36,8 @@ key | description
 
 
 
-**Screenshots**
+**Screenshots (very blurred!!!)**
+
 ![example][exampleimg]
 
 
