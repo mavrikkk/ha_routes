@@ -10,6 +10,9 @@ import logging
 
 from datetime import datetime
 from datetime import timedelta
+from shutil import copy2
+from os import mkdir
+from os import path
 
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
@@ -73,6 +76,13 @@ class MyRoute(Entity):
                 
     def putInfoTo(self):
         cfgdir = self.hass.config.as_dict()['config_dir']
+        fromfile = cfgdir + '/custom_components/route/leaflet.polylineDecorator.js'
+        todir = cfgdir + '/www/route'
+        tofile = todir + '/leaflet.polylineDecorator.js'
+        if not path.exists(todir):
+            mkdir(todir)
+        if not path.exists(tofile):
+            copy2(fromfile, tofile)
         datenow = str(time.strftime('%Y.%m.%d-%H:%M:%S'))
         try:
             f = open(cfgdir + '/www/route/route.html', 'w')
