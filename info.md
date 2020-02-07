@@ -6,13 +6,14 @@
 **Example configuration.yaml:**
 
 ```yaml
-sensor:
-  platform: route
-  name: route
-  haddr: 'https://your_ha_address.com'
-  entityid: ha_entity_id_you_want_to_watch
-  timezone: '+02:00'
-  token: 'your_generated_long_life_token_ha_api'
+route:
+  days: num_days
+  mindst: your_min_dst
+  time_zone: your_timezone
+  token: your_long_life_token
+  devices:
+    - your_device_tracker_entity_id1
+    - your_device_tracker_entity_id2
 ```
 
 
@@ -21,12 +22,11 @@ sensor:
   
 key | description  
 :--- | :---  
-**platform (Required)** | The platform name (имя платформы)
-**name (Option)** | The name of this element in HA interface (имя элемента в интерфейсе HA)
-**haddr (Required)** | base_url of HA (base_url вашего HA)
-**entityid (Required)** | the HA entityid of your device_tracker (это ID вашего устройства, за которым будете наблюдать)
-**timezone (Required)** | is your timezone, for example '+03:00' (ваш часовой пояс, например '+03:00')
-**token (Required)** | the access token previously received in the frontend of HomeAssistant to use REST API (предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API)
+**days (Option)** | is number of days to choose from in history (это количество дней, для выбора из истории)
+**mindst (Option)** | is minimal distance between two points on map (минимальная дистанция между точками, для отображения на карте)
+**time_zone (Required)** | is your timezone, for example '+03:00' (ваш часовой пояс, например '+03:00')
+**token (Required)** | is the access token previously received in the frontend of HomeAssistant to use REST API (предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API)
+**devices (Required)** | the HA entityid's of your device_tracker's (это ID ваших устройств, за которыми будете наблюдать)
   
   
   
