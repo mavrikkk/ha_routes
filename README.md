@@ -6,6 +6,10 @@
 
 2020/02/07 Теперь можно задавать список из нескольких устройств, а также выбирать дату
 
+What's new:
+
+2020/02/07 now you can choose more than 1 device and choose date
+
 <p>Интеграция позволяет отображать историю перемещений (назовем это маршрутами или направлениями) на карте в вашем HomeAssistant, используя библиотеку Leaflet, а также плагин <a href='https://github.com/bbecquet/Leaflet.PolylineDecorator'>leaflet.polylineDecorator.js</a></p>
 <p>This integration allows you to display the history of movements (call it a route or directions) on the map of your HomeAssistant using the Leaflet library and <a href='https://github.com/bbecquet/Leaflet.PolylineDecorator'>leaflet.polylineDecorator.js</a></p>
 
@@ -34,10 +38,6 @@ route:
 <p>- поправить перевод в README.md</p>
 
 <p><b>BAD ENGLISH:</b></p>
-
-What's new:
-
-2020/02/07 now you can choose more than 1 device and choose date
 
 <p><b>1. A few words about security</b></p>
 <p>All files in the "www" directory of HomeAssistant are public: any file in the "www" directory can be opened in any browser without any authorization, knowing the direct link. In our case, this link is: "http://your_address_homeassistant/local/route/index.html".For more security, you can configure a reverse proxy in front of HomeAssistant service and set the authorization in it. Configuration of most popular web-servers as reverse proxy are on the <a href=https://www.home-assistant.io/docs/ecosystem/nginx>official page</a>. 
