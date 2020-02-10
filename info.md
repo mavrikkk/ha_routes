@@ -40,7 +40,21 @@ key | description
 
 <p>After installation the map will be at your_address_homeassistant/local/route/index.html. If you wish, you can add it to the HA menu using panel_iframe or to any HA window via the lovelace card “iframe” (После установки карта будет доступна по прямой ссылке: your_address_homeassistant/local/route/index.html. При желании вы можете добавить ее в меню HA с помощью panel_iframe или в любое окно HA через lovelace card “iframe”).</p>
 
+<p>The homeassistant API is designed to receive history only when state is change. Since the state of device_tracker is location in some zone or "not_home", then not all coordinates will be, but only those that were fixed when the states changed. You only seem to be able to get list of state change locations (when moving from zones). To avoid this, create a new template sensor in HA, in which the attributes will be copied from the desired device_tracker, and the state will be last_updated. So we get the whole history of movements. (API homeassistant устроен так, что позволяет получать историю только при изменении состояний. Так как состоянием у device_tracker является расположение в какой либо зоне или "not_home", то и координаты будут не все, а только те, которые зафиксированы при смене состояний. Чтобы этого избежать созданим в HA новый template sensor, у которого атрибуты будут скопированы у нужного device_tracker, а состоянием будет last_updated. Таким образом мы получим всю историю перемещений.)</p>
 
+<pre><code>
+sensor:
+  - platform: template
+    sensors:
+      my_sensor_name:
+        value_template: >-
+            {{states.your_device_tracker_id.last_updated}}
+        attribute_templates:
+          latitude: >-
+              {{state_attr('your_device_tracker_id','latitude')}}
+          longitude: >-
+              {{state_attr('your_device_tracker_id','longitude')}}
+</code></pre>
 
 **Screenshots (very blurred!!!)**
 
