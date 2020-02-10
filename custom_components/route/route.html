@@ -565,6 +565,8 @@ catch (e) {
 lat = 0;
 lon = 0;
 }
+lat = lat || 0;
+lon = lon || 0;
 if (lat !== 0 && lon !== 0){
 var newLength = arr.push([lat,lon]);
 }
