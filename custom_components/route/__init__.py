@@ -44,8 +44,7 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
     except:
         _LOGGER.error("Check your config")
         return False
-    myroute.createFiles()
-    return True
+    return myroute.createFiles()
 
 
 
@@ -63,27 +62,33 @@ class Route:
         self._haddr = haddr
 
     def createFiles(self):
-        curr_dir = os.getcwd()
-        dirExists = os.path.exists(curr_dir + '/www/' + DOMAIN)
-        if not dirExists:
-            os.mkdir(curr_dir + '/www/' + DOMAIN)
-        copyfile(curr_dir + '/custom_components/' + DOMAIN + '/index.html', curr_dir + '/www/' + DOMAIN + '/index.html')
-        copyfile(curr_dir + '/custom_components/' + DOMAIN + '/route.html', curr_dir + '/www/' + DOMAIN + '/route.html')
-        
-        with open(curr_dir + '/www/' + DOMAIN + '/route.html', 'r') as file :
-            filedata = file.read()
-        filedata = filedata.replace('number_of_days_variable', str(self._numberofdays))
-        filedata = filedata.replace('time_zone_variable', "'" + self._timezone + "'")
-        filedata = filedata.replace('access_token_variable', self._token)
-        filedata = filedata.replace('haddr_variable', "'" + self._haddr + "'")
-        filedata = filedata.replace('minimal_distance_variable', str(self._mindistance))
-        devices_var = '['
-        for device in self._devices:
-            devices_var = devices_var + "'" + device + "',"
-        if devices_var == '[':
-            devices_var = '[]'
-        else:
-            devices_var = devices_var[:-1] + ']'
-        filedata = filedata.replace('array_of_devices_variable', devices_var)
-        with open(curr_dir + '/www/' + DOMAIN + '/route.html', 'w') as file:
-            file.write(filedata)
+        answ = False
+        try:
+            curr_dir = os.getcwd()
+            dirExists = os.path.exists(curr_dir + '/www/' + DOMAIN)
+            if not dirExists:
+                os.mkdir(curr_dir + '/www/' + DOMAIN)
+            copyfile(curr_dir + '/custom_components/' + DOMAIN + '/index.html', curr_dir + '/www/' + DOMAIN + '/index.html')
+            copyfile(curr_dir + '/custom_components/' + DOMAIN + '/route.html', curr_dir + '/www/' + DOMAIN + '/route.html')
+
+            with open(curr_dir + '/www/' + DOMAIN + '/route.html', 'r') as file :
+                filedata = file.read()
+            filedata = filedata.replace('number_of_days_variable', str(self._numberofdays))
+            filedata = filedata.replace('time_zone_variable', "'" + self._timezone + "'")
+            filedata = filedata.replace('access_token_variable', self._token)
+            filedata = filedata.replace('haddr_variable', "'" + self._haddr + "'")
+            filedata = filedata.replace('minimal_distance_variable', str(self._mindistance))
+            devices_var = '['
+            for device in self._devices:
+                devices_var = devices_var + "'" + device + "',"
+            if devices_var == '[':
+                devices_var = '[]'
+            else:
+                devices_var = devices_var[:-1] + ']'
+            filedata = filedata.replace('array_of_devices_variable', devices_var)
+            with open(curr_dir + '/www/' + DOMAIN + '/route.html', 'w') as file:
+                file.write(filedata)
+            answ = True
+        except:
+            _LOGGER.error("coudnt create files")
+        return answ

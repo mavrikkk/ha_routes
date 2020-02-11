@@ -560,6 +560,9 @@ for (var i=0; i<data.length; i++) {
 try {
 lat = parseFloat(data[i]['attributes']['latitude']);
 lon = parseFloat(data[i]['attributes']['longitude']);
+strdatein = data[i]['last_updated'];
+localDate = new Date(strdatein);
+strdateout = localDate.toLocaleString();
 }
 catch (e) {
 lat = 0;
@@ -568,20 +571,20 @@ lon = 0;
 lat = lat || 0;
 lon = lon || 0;
 if (lat !== 0 && lon !== 0){
-var newLength = arr.push([lat,lon]);
+var newLength = arr.push([lat,lon,strdateout]);
 }
 }
 if (arr.length > 0) {
 latA = arr[0][0];
 lonA = arr[0][1];
-var newLength = arr1.push([latA,lonA]);
+var newLength = arr1.push([latA,lonA,arr[0][2]]);
 for (var i=1; i<arr.length; i++) {
 latB = arr[i][0];
 lonB = arr[i][1];
 if (latA !== latB && lonA !== lonB) {
 dst = getDistance(latA, lonA, latB, lonB);
 if (dst > minimal_distance_variable){
-var newLength = arr1.push([latB,lonB]);
+var newLength = arr1.push([latB,lonB,arr[i][2]]);
 latA = arr[i][0];
 lonA = arr[i][1];
 }
@@ -612,18 +615,19 @@ return dst;
 function drawMap(massiv){
 if (massiv.length > 0) {
 for (var i=0; i<massiv.length; i++) {
-var marker = L.marker(massiv[i]).addTo(mymap);
-marker.bindTooltip((i+1).toString());}
+var marker = L.marker([massiv[i][0],massiv[i][1]]).addTo(mymap);
+marker.bindTooltip('(№'+(i+1).toString() + ') ' + massiv[i][2].toString());
+}
 var polyline = L.polyline(massiv, {color: 'red', weight: 2, opacity: 0.5}).addTo(mymap);
 mymap.fitBounds(polyline.getBounds());
 polyline.remove();
 }
 if (massiv.length > 1) {
-line = massiv[0];
+line = [massiv[0][0],massiv[0][1]];
 for (var i=1; i<massiv.length; i++) {
-var polyline = L.polyline([line, massiv[i]], {color: 'red', weight: 2, opacity: 0.7}).addTo(mymap);
+var polyline = L.polyline([line, [massiv[i][0],massiv[i][1]]], {color: 'red', weight: 2, opacity: 0.7}).addTo(mymap);
 var arrowHead = L.polylineDecorator(polyline, {patterns: [{offset: '100%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 12, polygon: false, pathOptions: {stroke: true, opacity: 0.7, color: 'red',weight: 2}})}]}).addTo(mymap);
-line = massiv[i];
+line = [massiv[i][0],massiv[i][1]];
 }
 }
 }
