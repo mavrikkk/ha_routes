@@ -1,13 +1,17 @@
 **Description (Описание)**
 <p>This integration allows you to display the history of movements on the map of your HomeAssistant (Интеграция позволяет отображать историю перемещений на карте в вашем HomeAssistant)</p>
 
+Что нового:
+
+2020/02/07 Теперь можно задавать список из нескольких устройств, а также выбирать дату
+
+2020/02/11 Теперь на каждой точке указаны дата и время в этой точке
+
 What's new:
 
 2020/02/07 now you can choose more than 1 device and choose date
 
-Что нового:
-
-2020/02/07 Теперь можно задавать список из нескольких устройств, а также выбирать дату
+2020/02/11 now you can see the time on every point
 
 **Example configuration.yaml:**
 
