@@ -1,7 +1,9 @@
 """The route component."""
 
 import os
+import datetime
 from shutil import copyfile
+from aiohttp import web
 
 import logging
 import voluptuous as vol
@@ -9,6 +11,7 @@ from homeassistant.core import callback
 from homeassistant.const import (CONF_TOKEN, CONF_TIME_ZONE, CONF_DEVICES)
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
+from homeassistant.components.http import HomeAssistantView
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -34,61 +37,70 @@ CONFIG_SCHEMA = vol.Schema({DOMAIN: vol.Schema(
 async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
 
     try:
-        mindistance = config[DOMAIN][CONF_MIN_DST]
-        numberofdays = config[DOMAIN][CONF_NUMBER_OF_DAYS]
-        timezone = config[DOMAIN][CONF_TIME_ZONE]
-        token = config[DOMAIN][CONF_TOKEN]
-        devices = config[DOMAIN][CONF_DEVICES]
-        haddr = config["http"]["base_url"]
-        myroute = Route(hass, mindistance, numberofdays, timezone, token, devices, haddr)
+        myconfig = {
+            "mindst": config[DOMAIN][CONF_MIN_DST],
+            "numofd": config[DOMAIN][CONF_NUMBER_OF_DAYS],
+            "tz": config[DOMAIN][CONF_TIME_ZONE],
+            "token": config[DOMAIN][CONF_TOKEN],
+            "devs": config[DOMAIN][CONF_DEVICES],
+            "haddr": config["http"]["base_url"],
+        }
+        hass.http.register_view(Route(hass, myconfig))
+        hass.components.frontend.async_register_built_in_panel(
+            "iframe",
+            "route",
+            "mdi:routes",
+            "route",
+            {"url": "/route/route.html"},
+            require_admin=False,
+        )
     except:
         _LOGGER.error("Check your config")
         return False
-    return myroute.createFiles()
+    return True
 
 
 
 
 
-class Route:
+class Route(HomeAssistantView):
+    url = r"/route/{requested_file:.+}"
+    name = "route"
+    requires_auth = False
 
-    def __init__(self, hass, mindistance, numberofdays, timezone, token, devices, haddr):
+    def __init__(self, hass, myconfig):
         self.hass = hass
-        self._mindistance = mindistance
-        self._numberofdays = numberofdays
-        self._timezone = timezone
-        self._token = token
-        self._devices = devices
-        self._haddr = haddr
+        self._cfg = myconfig
+        self.createFiles()
 
-    def createFiles(self):
-        answ = False
+    async def get(self,request,requested_file):
         try:
             curr_dir = os.getcwd()
-            dirExists = os.path.exists(curr_dir + '/www/' + DOMAIN)
-            if not dirExists:
-                os.mkdir(curr_dir + '/www/' + DOMAIN)
-            copyfile(curr_dir + '/custom_components/' + DOMAIN + '/index.html', curr_dir + '/www/' + DOMAIN + '/index.html')
-            copyfile(curr_dir + '/custom_components/' + DOMAIN + '/route.html', curr_dir + '/www/' + DOMAIN + '/route.html')
+            path = curr_dir + '/custom_components/' + DOMAIN + '/route_temp.html'
+            return web.FileResponse(path)
+        except:
+            return web.Response(status=404)
 
-            with open(curr_dir + '/www/' + DOMAIN + '/route.html', 'r') as file :
+    def createFiles(self):
+        try:
+            curr_dir = os.getcwd()
+            pathdomain = curr_dir + '/custom_components/' + DOMAIN
+            with open(pathdomain + '/route.html', 'r') as file:
                 filedata = file.read()
-            filedata = filedata.replace('number_of_days_variable', str(self._numberofdays))
-            filedata = filedata.replace('time_zone_variable', "'" + self._timezone + "'")
-            filedata = filedata.replace('access_token_variable', self._token)
-            filedata = filedata.replace('haddr_variable', "'" + self._haddr + "'")
-            filedata = filedata.replace('minimal_distance_variable', str(self._mindistance))
+            filedata = filedata.replace('number_of_days_variable', str(self._cfg["numofd"]))
+            filedata = filedata.replace('time_zone_variable', "'" + self._cfg["tz"] + "'")
+            filedata = filedata.replace('access_token_variable', self._cfg["token"])
+            filedata = filedata.replace('haddr_variable', "'" + self._cfg["haddr"] + "'")
+            filedata = filedata.replace('minimal_distance_variable', str(self._cfg["mindst"]))
             devices_var = '['
-            for device in self._devices:
+            for device in self._cfg["devs"]:
                 devices_var = devices_var + "'" + device + "',"
             if devices_var == '[':
                 devices_var = '[]'
             else:
                 devices_var = devices_var[:-1] + ']'
             filedata = filedata.replace('array_of_devices_variable', devices_var)
-            with open(curr_dir + '/www/' + DOMAIN + '/route.html', 'w') as file:
+            with open(pathdomain + '/route_temp.html', 'w') as file:
                 file.write(filedata)
-            answ = True
         except:
-            _LOGGER.error("coudnt create files")
-        return answ
+            _LOGGER.error("coudnt copy files")
