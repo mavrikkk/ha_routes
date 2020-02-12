@@ -7,11 +7,15 @@
 
 2020/02/11 Теперь на каждой точке указаны дата и время в этой точке
 
+2020/02/12 Боковая панель создается автоматически. Теперь компонент защищен авторизацией HA
+
 What's new:
 
 2020/02/07 now you can choose more than 1 device and choose date
 
 2020/02/11 now you can see the time on every point
+
+2020/02/12 The side panel creates automatically. Now the component is secured by HA authority
 
 **pre installation instructions**
 
@@ -53,15 +57,6 @@ key | description
 **time_zone (Required)** | is your timezone, for example '+03:00' (ваш часовой пояс, например '+03:00')
 **token (Required)** | is the access token previously received in the frontend of HomeAssistant to use REST API (предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API)
 **devices (Required)** | the HA entityid's of your template sensors (это ID ваших устройств, за которыми будете наблюдать)
-
-**after installation instructions**
-
-<p>After installation the map will be at your_address_homeassistant/local/route/index.html. If you wish, you can add it to the HA menu using panel_iframe or to any HA window via the lovelace card “iframe” (После установки карта будет доступна по прямой ссылке: your_address_homeassistant/local/route/index.html. При желании вы можете добавить ее в меню HA с помощью panel_iframe или в любое окно HA через lovelace card “iframe”).</p>
-
-**A few words about security**
-
-<p>All files in the "www" directory of HomeAssistant are public: any file in the "www" directory can be opened in any browser without any authorization, knowing the direct link. In our case, this link is: "http://your_address_homeassistant/local/route/index.html".For more security, you can configure a reverse proxy in front of HomeAssistant service and set the authorization in it. Configuration of most popular web-servers as reverse proxy are on the <a href=https://www.home-assistant.io/docs/ecosystem/nginx>official page</a>. 
-After setting up a reverse proxy, you need to add authorization for the necessary pages. This is an independent authorization that is not related to the authorization of the HomeAssistant itself. (Все файлы в директории "www" публичные: любой файл в директории "www" может быть открыт в любом браузером любым пользователем безо всякой авторизации по прямой ссылке. В данном случае ссылка такая: "http://your_address_homeassistant/local/route/index.html".  Для безопасноти можно поднять реверсивный прокси и поместить службу HomeAssistant за ним, а затем настроить авторизацию уже в нем. Настройка наиболее популярных веб-серверов в качестве реверсивных прокси находятся на <a href=https://www.home-assistant.io/docs/ecosystem/nginx>официальной странице</a>. После настройки реверсивного прокси нужно добавить авторизацию на нужные страницы. Это будет независимая авторизация, никак не связанная с ваторизацией в самом HomeAssistant)</p>
 
 **Screenshots (very blurred!!!)**
 
