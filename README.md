@@ -11,11 +11,15 @@
 
 2020/02/11 Теперь на каждой точке указаны дата и время в этой точке
 
+2020/02/12 Боковая панель создается автоматически. Теперь компонент защищен авторизацией HA
+
 What's new:
 
 2020/02/07 now you can choose more than 1 device and choose date
 
 2020/02/11 now you can see the time on every point
+
+2020/02/12 The side panel creates automatically. Now the component is secured by HA authority
 
 <p><b>РУССКИЙ:</b></p>
 
