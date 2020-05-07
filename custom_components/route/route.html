@@ -507,7 +507,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'b
 
 
 for (var i=0; i<devices.length; i++) {
-newOption = new Option(devices[i], devices[i]);
+newOption = new Option(devices[i][0], devices[i][1]);
 myForm.elements.add(newOption);
 }
 

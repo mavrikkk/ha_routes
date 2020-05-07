@@ -1,7 +1,8 @@
 """The route component."""
 
 import os
-import datetime
+from datetime import datetime
+from datetime import timedelta
 from shutil import copyfile
 from aiohttp import web
 
@@ -12,10 +13,15 @@ from homeassistant.const import (CONF_TOKEN, CONF_TIME_ZONE, CONF_DEVICES)
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 from homeassistant.components.http import HomeAssistantView
+from homeassistant.helpers.event import async_track_time_interval
+from homeassistant.helpers.discovery import async_load_platform
+from homeassistant.helpers.dispatcher import async_dispatcher_send
 
 _LOGGER = logging.getLogger(__name__)
 
 DOMAIN = "route"
+
+SUPPORTED_DOMAINS = ["sensor"]
 
 CONF_NUMBER_OF_DAYS = 'days'
 DEFAULT_NUMBER_OF_DAYS = 10
@@ -35,28 +41,43 @@ CONFIG_SCHEMA = vol.Schema({DOMAIN: vol.Schema(
 
 
 async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
+    hass.data[DOMAIN] = {}
+    myconfig = {
+        "mindst": config[DOMAIN][CONF_MIN_DST],
+        "numofd": config[DOMAIN][CONF_NUMBER_OF_DAYS],
+        "tz": config[DOMAIN][CONF_TIME_ZONE],
+        "token": config[DOMAIN][CONF_TOKEN],
+        "devs": config[DOMAIN][CONF_DEVICES],
+        "haddr": config["http"]["base_url"],
+    }
+
+    sensors_gps = hass.data[DOMAIN]["sensors_gps"] = SensorsGps(hass,myconfig)
 
     try:
-        myconfig = {
-            "mindst": config[DOMAIN][CONF_MIN_DST],
-            "numofd": config[DOMAIN][CONF_NUMBER_OF_DAYS],
-            "tz": config[DOMAIN][CONF_TIME_ZONE],
-            "token": config[DOMAIN][CONF_TOKEN],
-            "devs": config[DOMAIN][CONF_DEVICES],
-            "haddr": config["http"]["base_url"],
-        }
+        await sensors_gps.update()
+    except:
+        _LOGGER.warning("Error creating sensors")
+        return False
+
+    async_track_time_interval(hass, sensors_gps.async_update, timedelta(seconds=60))
+
+    for platform in SUPPORTED_DOMAINS:
+        hass.async_create_task(async_load_platform(hass, platform, DOMAIN, {}, config))
+
+    try:
         hass.http.register_view(Route(hass, myconfig))
         hass.components.frontend.async_register_built_in_panel(
             "iframe",
-            "route",
+            "Routes",
             "mdi:routes",
             "route",
             {"url": "/route/route.html"},
             require_admin=False,
         )
     except:
-        _LOGGER.error("Check your config")
+        _LOGGER.error("Error creating panel")
         return False
+
     return True
 
 
@@ -94,7 +115,16 @@ class Route(HomeAssistantView):
             filedata = filedata.replace('minimal_distance_variable', str(self._cfg["mindst"]))
             devices_var = '['
             for device in self._cfg["devs"]:
-                devices_var = devices_var + "'" + device + "',"
+                entity_domain = device.split('.')[0]
+                fullname = device
+                friendly_name = ''
+                if self.hass.states.get(device) != None:
+                    friendly_name = self.hass.states.get(device).attributes['friendly_name']
+                if friendly_name == '':
+                    friendly_name = device
+                if entity_domain == 'device_tracker':
+                    fullname = 'sensor.virtual_'+device.replace(".", "_")
+                devices_var = devices_var + "['" + friendly_name + "', '" + fullname + "'],"
             if devices_var == '[':
                 devices_var = '[]'
             else:
@@ -104,3 +134,42 @@ class Route(HomeAssistantView):
                 file.write(filedata)
         except:
             _LOGGER.error("coudnt copy files")
+
+
+
+class SensorsGps:
+
+    def __init__(self, hass, mycfg):
+        self.hass = hass
+        self.states = {}
+        self._cfg = mycfg
+        self._devs = self._cfg["devs"]
+
+
+
+    async def update(self):
+        self.getDeviceTrackers()
+
+
+
+    async def async_update(self, now, **kwargs) -> None:
+        try:
+            await self.update()
+        except:
+            _LOGGER.warning("Update failed")
+            return
+        async_dispatcher_send(self.hass, DOMAIN)
+
+
+
+    def getDeviceTrackers(self):
+        timenow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        for device in self._devs:
+            entity_domain = device.split('.')[0]
+            if entity_domain == "device_tracker":
+                lat = 0
+                lon = 0
+                if self.hass.states.get(device) != None:
+                    lat = self.hass.states.get(device).attributes['latitude']
+                    lon = self.hass.states.get(device).attributes['longitude']
+                self.states[device]=[timenow,lat,lon]
