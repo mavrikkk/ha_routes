@@ -55,7 +55,8 @@ route:
     - your_sensor_entity_id1
     - your_sensor_entity_id2
 </code></pre>
-<p>здесь "num_days" - это количество дней, для выбора из истории, "your_sensor_entity_id" - это ID ваших устройств template sensor, "your_min_dst" - минимальная дистанция между точками, для отображения на карте, 'your_timezone' - это часовой пояс, например '+03:00', "your_long_life_token" - предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API.</p>
+<p>здесь "num_days" - это количество дней, для выбора из истории, "your_sensor_entity_id" - это ID ваших устройств template sensor, "your_min_dst" - минимальная дистанция между точками, для отображения на карте, 'your_timezone' - это часовой пояс, например '+03:00', "your_long_life_token" - предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API.
+ВНИМАНИЕ. Для правильной работы интеграции убедитесь, что в конфигурации HA правильно заполнен параметр base_url</p>
 
 <p><b>BAD ENGLISH:</b></p>
 
@@ -91,4 +92,4 @@ route:
     - your_sensor_entity_id1
     - your_sensor_entity_id2
 </code></pre>
-<p>here "num_days" is number of days to choose from in history, here "your_min_dst" is minimal distance between two points on map, here "your_sensor_entity_id" is the ID of your template sensor, 'your_timezone' is your timezone, for example '+03:00', "your_long_life_token" is the access token previously received in the frontend of HomeAssistant to use REST API.</p>
+<p>here "num_days" is number of days to choose from in history, here "your_min_dst" is minimal distance between two points on map, here "your_sensor_entity_id" is the ID of your template sensor, 'your_timezone' is your timezone, for example '+03:00', "your_long_life_token" is the access token previously received in the frontend of HomeAssistant to use REST API. ATTENTION. Make sure the base_url parameter is correctly configured in the HA configuration.yaml</p>
