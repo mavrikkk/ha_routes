@@ -70,7 +70,7 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
             "iframe",
             "Routes",
             "mdi:routes",
-            "route",
+            "myroute",
             {"url": "/route/route.html"},
             require_admin=False,
         )
