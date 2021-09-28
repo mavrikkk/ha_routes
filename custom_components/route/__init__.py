@@ -27,10 +27,12 @@ CONF_NUMBER_OF_DAYS = 'days'
 DEFAULT_NUMBER_OF_DAYS = 10
 CONF_MIN_DST = 'mindst'
 DEFAULT_MIN_DST = 0.1
+CONF_HADDR = 'haddr'
 
 CONFIG_SCHEMA = vol.Schema({DOMAIN: vol.Schema(
                {vol.Optional(CONF_NUMBER_OF_DAYS, default=DEFAULT_NUMBER_OF_DAYS): cv.positive_int, 
                 vol.Optional(CONF_MIN_DST, default=DEFAULT_MIN_DST): cv.small_float, 
+                vol.Required(CONF_HADDR): cv.string,
                 vol.Required(CONF_TIME_ZONE): cv.string, 
                 vol.Required(CONF_TOKEN): cv.string,
                 vol.Required(CONF_DEVICES): vol.All(cv.ensure_list,),
@@ -48,7 +50,7 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
         "tz": config[DOMAIN][CONF_TIME_ZONE],
         "token": config[DOMAIN][CONF_TOKEN],
         "devs": config[DOMAIN][CONF_DEVICES],
-        "haddr": config["http"]["base_url"],
+        "haddr": config[DOMAIN][CONF_HADDR],
     }
 
     sensors_gps = hass.data[DOMAIN]["sensors_gps"] = SensorsGps(hass,myconfig)
