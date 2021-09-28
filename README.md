@@ -39,6 +39,7 @@ What's new:
 <p>Добавьте в ваш файл конфигурации "configuration.yaml" следующие строки:</p>
 <pre><code>
 route:
+  haddr: your_ha_address
   days: num_days
   mindst: your_min_dst
   time_zone: your_timezone
@@ -47,7 +48,7 @@ route:
     - your_sensor_entity_id1
     - your_device_tracker_entity_id1
 </code></pre>
-<p>здесь "num_days" - это количество дней, для выбора из истории, "your_sensor_entity_id" - это ID ваших sensor, "your_device_tracker_entity_id" - это ID ваших device_tracker, "your_min_dst" - минимальная дистанция между точками, для отображения на карте, 'your_timezone' - это часовой пояс, например '+03:00', "your_long_life_token" - предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API.
+<p>здесь "your_ha_address" - внешний адрес вашего HA, "num_days" - это количество дней, для выбора из истории, "your_sensor_entity_id" - это ID ваших sensor, "your_device_tracker_entity_id" - это ID ваших device_tracker, "your_min_dst" - минимальная дистанция между точками, для отображения на карте, 'your_timezone' - это часовой пояс, например '+03:00', "your_long_life_token" - предварительно полученный во фронтенде HomeAssistant токен доступа для использования REST API.
 ВНИМАНИЕ. Для правильной работы интеграции убедитесь, что в конфигурации HA правильно заполнен параметр base_url</p>
 
 <p><b>BAD ENGLISH:</b></p>
@@ -62,6 +63,7 @@ route:
 <p>Add the following lines in the "configuration.yaml" file:</p>
 <pre><code>
 route:
+  haddr: your_ha_address
   days: num_days
   mindst: your_min_dst
   time_zone: your_timezone
@@ -70,4 +72,4 @@ route:
     - your_sensor_entity_id1
     - your_device_tracker_entity_id1
 </code></pre>
-<p>here "num_days" is number of days to choose from in history, here "your_min_dst" is minimal distance between two points on map, here "your_sensor_entity_id" is the ID of your template sensor, "your_device_tracker_entity_id" is the ID of your device_tracker, 'your_timezone' is your timezone, for example '+03:00', "your_long_life_token" is the access token previously received in the frontend of HomeAssistant to use REST API. ATTENTION. Make sure the base_url parameter is correctly configured in the HA configuration.yaml</p>
+<p>here "your_ha_address" is your homeasssistant address, "num_days" is number of days to choose from in history, here "your_min_dst" is minimal distance between two points on map, here "your_sensor_entity_id" is the ID of your template sensor, "your_device_tracker_entity_id" is the ID of your device_tracker, 'your_timezone' is your timezone, for example '+03:00', "your_long_life_token" is the access token previously received in the frontend of HomeAssistant to use REST API. ATTENTION. Make sure the base_url parameter is correctly configured in the HA configuration.yaml</p>
