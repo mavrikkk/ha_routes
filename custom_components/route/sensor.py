@@ -41,7 +41,7 @@ class GPSSensor(Entity):
         return self._icon
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         attrs = {}
         attrs[ATTR_LATITUDE] = self._sensors_gps.states[self._entity][1]
         attrs[ATTR_LONGITUDE] = self._sensors_gps.states[self._entity][2]
